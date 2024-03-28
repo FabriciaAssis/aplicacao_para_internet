@@ -21,51 +21,50 @@ header{
   height: 50px;
 }
 
-#logo{
+.logo{
     align-items: start;
     display: flex;
     width: 300px;
     height: 40px;
-}
-#logo h1{
+    text-decoration: none;
     color: #FAFAD2;
- }
+
+}
  
- #logo h1 span{
+ .logo h1 span{
      color: #00BFFF;
      font-weight: 400;
  }
- #main-nav{
+
+ul {
+    list-style-type: none;
     align-items: center;
     display: flex;
     width: 300px;
     height: 40px;
+    overflow: hidden;
+    background-color: #DCDCDC;
 }
 
-#main-nav ul{
-    margin: 0;
-    padding: 0;
-    display: flex;
-}
-
-#main-nav ul li{
-        list-style-type: none;
-        margin: 0 0 0 20px;
-
-}
-
-#main-nav ul li a{
-    color: #000;
+li {
+    float: left;
     font-size: 1.2rem;
-    padding: 10px;
+    list-style-type: none;
+    margin: 0 0 0 20px;
 }
 
-.active, #main-nav ul li a.active{
-    color: rgb(27, 26, 26);
-    font-weight: 700;
-    border-bottom: 2px solid #DCDCDC;
+li a {
+    display: block;
+    color: #000;
+    text-align: center;
+    margin: -4px;
+    padding: 5px;
+    text-decoration: none;
 }
 
+li a:hover, .active {
+    background-color: #ccc;
+}
 #content-header{
     margin-top: 20px;
 }
