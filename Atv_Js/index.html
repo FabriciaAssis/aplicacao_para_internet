@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Notas e Média</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        input, button {
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Sistema de Controle de Notas</h1>
+    
+    <label for="numeroAlunos">Número de Alunos:</label>
+    <input type="number" id="numeroAlunos" min="1" required>
+
+    <label for="numeroNotas">Número de Notas por Aluno:</label>
+    <input type="number" id="numeroNotas" min="1" required>
+
+    <button onclick="iniciarProcesso()">Iniciar</button>
+
+    <div id="formularioNotas"></div>
+    <div id="resultado"></div>
+
+    <script>
+        function iniciarProcesso() {
+            const numeroAlunos = parseInt(document.getElementById('numeroAlunos').value);
+            const numeroNotas = parseInt(document.getElementById('numeroNotas').value);
+            const formularioNotas = document.getElementById('formularioNotas');
+            
+            formularioNotas.innerHTML = "";  // Limpar formulário anterior
+            
+            if (numeroAlunos && numeroNotas) {
+                for (let i = 0; i < numeroAlunos; i++) {
+                    const alunoDiv = document.createElement('div');
+                    alunoDiv.innerHTML = `<h3>Aluno ${i + 1}</h3>
+                        <label>Nome do Aluno:</label>
+                        <input type="text" id="nome${i}" required><br>`;
+                    
+                    for (let j = 0; j < numeroNotas; j++) {
+                        alunoDiv.innerHTML += `<label>Nota ${j + 1}:</label>
+                            <input type="number" id="nota${i}${j}" min="0" max="100" step="0.01" required><br>`;
+                    }
+
+                    formularioNotas.appendChild(alunoDiv);
+                }
+                formularioNotas.innerHTML += `<button onclick="calcularMedia(${numeroAlunos}, ${numeroNotas})">Calcular Médias</button>`;
+            }
+        }
+
+        function calcularMedia(numeroAlunos, numeroNotas) {
+            const resultadoDiv = document.getElementById('resultado');
+            resultadoDiv.innerHTML = "";  // Limpar resultados anteriores
+
+            const tabela = document.createElement('table');
+            tabela.innerHTML = `
+                <tr>
+                    <th>Nome do Aluno</th>
+                    <th>Média</th>
+                    <th>Situação</th>
+                </tr>
+            `;
+
+            for (let i = 0; i < numeroAlunos; i++) {
+                let somaNotas = 0;
+                const nomeAluno = document.getElementById(`nome${i}`).value;
+                
+                for (let j = 0; j < numeroNotas; j++) {
+                    let nota = parseFloat(document.getElementById(`nota${i}${j}`).value);
+                    somaNotas += nota;
+                }
+
+                const media = somaNotas / numeroNotas;
+                let situacao;
+
+                if (media > 59) {
+                    situacao = "APROVADO";
+                } else if (media >= 4 && media <= 59) {
+                    situacao = "RECUPERAÇÃO";
+                } else {
+                    situacao = "REPROVADO";
+                }
+
+                // Adicionar resultado à tabela
+                tabela.innerHTML += `
+                    <tr>
+                        <td>${nomeAluno}</td>
+                        <td>${media.toFixed(2)}</td>
+                        <td>${situacao}</td>
+                    </tr>
+                `;
+            }
+
+            resultadoDiv.appendChild(tabela);
+        }
+    </script>
+</body>
+</html>
